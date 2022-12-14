@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form.io duplicator</title>
+  </head>
+  <body>
+    <div class="panel panel-primary" id="step1">
+      <div class="panel-body">
+        <div id="copyform"></div>
+      </div>
+    </div>
+    <div class="panel panel-primary" id="step2">
+      <div class="panel-heading">
+        <h3 class="panel-title">Login to Destination Project</h3>
+      </div>
+      <div class="panel-body">
+        <div id="loginform"></div>
+      </div>
+    </div>
+    <div class="panel panel-success" id="result">
+      <div class="panel-body">
+        <h3>Result</h3>
+        <pre><code id=json></code></pre>
+      </div>
+    </div>
+
+    <!-- <script src="https://unpkg.com/formiojs@4.14.10/dist/formio.full.min.js"></script> -->
+    <!-- <script src="https://cdn.form.io/formiojs/formio.full.js"></script> -->
+    <script src="https://cdn.form.io/formiojs/formio.full.min.js"></script>
+    <script>
+      var PrettyJSON = {
+        print: function (elementId, json) {
+          document.getElementById(elementId).innerHTML =
+            PrettyJSON.prettyPrint(json);
+        },
+        replacer: function (match, pIndent, pKey, pVal, pEnd) {
+          var key = "<span class=json-key>";
+          var val = "<span class=json-value>";
+          var str = "<span class=json-string>";
+          var r = pIndent || "";
+          if (pKey) r = r + key + pKey.replace(/[": ]/g, "") + "</span>: ";
+          if (pVal) r = r + (pVal[0] == '"' ? str : val) + pVal + "</span>";
+          return r + (pEnd || "");
+        },
+        prettyPrint: function (obj) {
+          var jsonLine = /^( *)("[\w]+": )?("[^"]*"|[\w.+-]*)?([,[{])?$/gm;
+          return JSON.stringify(obj, null, 3)
+            .replace(/&/g, "&amp;")
+            .replace(/\\"/g, "&quot;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(jsonLine, PrettyJSON.replacer);
+        },
+      };
+
+      var step1 = document.getElementById("step1");
+      var step2 = document.getElementById("step2");
+      var result = document.getElementById("result");
+      step2.style.display = "none";
+      result.style.display = "none";
+      Formio.createForm(document.getElementById("copyform"), {
+        components: [
+          {
+            type: "textfield",
+            label: "Source Form",
+            key: "source",
+            input: true,
+            inputType: "text",
+            defaultValue: "https://examples.form.io/example",
+          },
+          {
+            type: "textfield",
+            label: "Destination Project",
+            key: "dest",
+            input: true,
+            inputType: "text",
+            placeholder: "https://yourproject.form.io",
+          },
+          {
+            type: "button",
+            action: "submit",
+            theme: "primary",
+            label: "Submit",
+          },
+        ],
+      }).then(function (form) {
+        form.on("submit", function (submission) {
+          // Load the existing form
+          Formio.setToken(null);
+          Formio.setBaseUrl(submission.data.dest);
+          new Formio(submission.data.source).loadForm().then(function (src) {
+            step1.style.display = "none";
+            step2.style.display = "inherit";
+            Formio.createForm(
+              document.getElementById("loginform"),
+              submission.data.dest + "/user/login"
+            ).then(function (loginForm) {
+              loginForm.on("submit", function () {
+                new Formio(submission.data.dest)
+                  .saveForm({
+                    title: src.title + " - Copy",
+                    display: src.display,
+                    name: src.name + "-copy",
+                    path: src.path + "-copy",
+                    type: src.type,
+                    tags: src.tags,
+                    components: src.components,
+                  })
+                  .then(
+                    function (copy) {
+                      step2.style.display = "none";
+                      result.style.display = "inherit";
+                      PrettyJSON.print("json", copy);
+                    },
+                    function (err) {
+                      step2.style.display = "none";
+                      result.style.display = "inherit";
+                      PrettyJSON.print("json", err);
+                    }
+                  );
+              });
+            });
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

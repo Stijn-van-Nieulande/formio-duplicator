@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form.io Duplicator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Copy Form.io project</h1>
+      <div class="progress-bar">
+        <div class="step" id="progress-step-1">
+          <div class="bullet">
+            <span>1</span>
+          </div>
+          <p>Target</p>
+        </div>
+        <div class="step" id="progress-step-2">
+          <div class="bullet">
+            <span>2</span>
+          </div>
+          <p>Login</p>
+        </div>
+        <div class="step" id="progress-step-3">
+          <div class="bullet">
+            <span>3</span>
+          </div>
+          <p>Submit</p>
+        </div>
+      </div>
+      <div class="steps">
+        <div id="errors"></div>
+        <div class="step" id="step-1">
+          <div id="copyform"></div>
+        </div>
+        <div class="step" id="step-2">
+          <div id="loginform"></div>
+        </div>
+        <div class="step" id="step-3">
+          <div id="submitform"></div>
+        </div>
+        <div class="step" id="step-4">
+          <p class="done">Done!</p>
+          <details>
+            <summary>Result</summary>
+            <pre><code id=json-result></code></pre>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.form.io/formiojs/formio.full.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

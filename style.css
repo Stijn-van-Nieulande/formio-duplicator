@@ -1,0 +1,168 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  font-family: "Poppins", sans-serif;
+}
+html {
+  overflow: hidden;
+}
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #0e131f;
+  color: #fff;
+}
+::selection {
+  color: #fff;
+  background: #d43f8d;
+}
+.container {
+  background: #141c2e;
+  padding: 30px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 390px;
+  position: relative;
+  box-shadow: 2px 3px 3px 1px #0e131fb0;
+  display: flex;
+  flex-flow: column;
+  gap: 30px;
+}
+.container::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-190deg);
+  width: 630px;
+  height: 180px;
+  /* width: 570px;
+  height: 60px; */
+  background: linear-gradient(
+    56deg,
+    rgba(181, 63, 245, 1) 0%,
+    rgba(39, 186, 228, 1) 83%
+  );
+  filter: blur(120px);
+  z-index: -1;
+  opacity: 0.3;
+}
+h1 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.progress-bar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 250px;
+  width: 100%;
+  margin: 0 auto;
+}
+.progress-bar .step {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  gap: 8px;
+}
+.progress-bar .step .bullet {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 4px solid #253251;
+  border-radius: 40px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.progress-bar .step.current .bullet {
+  border-color: #b53ff5;
+}
+.progress-bar .step.complete .bullet {
+  border-color: #3ff58d;
+  background-color: #1e5435;
+}
+
+.formio-form {
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
+}
+.formio-form input.form-control {
+  background: #253251;
+  color: white;
+  border-radius: 8px;
+  padding: 12px 14px;
+  border: 1px solid #0e131f;
+  width: 100%;
+}
+.formio-form .form-group.formio-component > div {
+  display: flex;
+}
+.formio-form .btn.btn-primary {
+  background: #077392;
+  color: white;
+  border-radius: 8px;
+  padding: 12px 14px;
+  border: 1px solid #0e131f;
+  width: 100%;
+  transition: 0.3s;
+}
+.formio-form .btn.btn-primary:hover {
+  background: #0993ba;
+}
+.formio-form .formio-errors.invalid-feedback,
+.formio-form .formio-component-submit .has-error .help-block,
+#errors p {
+  font-size: 14px;
+  color: #be7a7a;
+}
+#errors {
+  margin-bottom: 10px;
+}
+.alert.alert-danger {
+  font-size: 14px;
+  background: #973535;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+.alert.alert-danger ul {
+  padding-left: 18px;
+  font-size: 12px;
+}
+.alert.alert-danger > p {
+  font-weight: bold;
+}
+
+details > pre {
+  max-height: 410px;
+  overflow: auto;
+  font-size: 14px;
+  background: #1f2a44;
+  padding: 10px;
+  border-radius: 8px;
+}
+details > pre .json-key {
+  color: #9cdcfe;
+}
+details > pre .json-value {
+  color: #569cd6;
+}
+details > pre .json-string {
+  color: #ce9178;
+}
+p.done {
+  color: #3ff58d;
+  font-size: 24px;
+}
